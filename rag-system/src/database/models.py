@@ -25,7 +25,7 @@ class DocumentRecord(Base):
     content_hash = Column(String, unique=True, index=True, nullable=False)
     doc_type = Column(String, nullable=False)
     source = Column(String, nullable=False)
-    metadata = Column(JSON, default=dict)
+    doc_metadata = Column(JSON, default=dict)
     created_at = Column(DateTime, default=datetime.utcnow)
 
     chunks = relationship("ChunkRecord", back_populates="document", cascade="all, delete-orphan")
@@ -45,7 +45,7 @@ class ChunkRecord(Base):
     embedding = Column(Vector(384))  # Dimension matches all-MiniLM-L6-v2
     token_count = Column(Integer, nullable=False)
     chunk_index = Column(Integer, nullable=False)
-    metadata = Column(JSON, default=dict)
+    chunk_metadata = Column(JSON, default=dict)
 
     document = relationship("DocumentRecord", back_populates="chunks")
 

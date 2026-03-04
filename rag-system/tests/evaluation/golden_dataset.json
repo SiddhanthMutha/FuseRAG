@@ -88,5 +88,365 @@
     "expected_chunks": ["chunk_hallucination"],
     "category": "factual",
     "difficulty": "easy"
+  },
+  {
+    "id": "eval_011",
+    "query": "What is the difference between bi-encoder and cross-encoder?",
+    "expected_answer": "Bi-encoders encode query and document separately producing independent embeddings, enabling fast retrieval but with lower relevance scoring. Cross-encoders encode them jointly for higher quality but are too slow for large-scale retrieval.",
+    "expected_sources": ["doc_reranking"],
+    "expected_chunks": ["chunk_encoder_comparison"],
+    "category": "technical_explanation",
+    "difficulty": "medium"
+  },
+  {
+    "id": "eval_012",
+    "query": "What is semantic search?",
+    "expected_answer": "Semantic search is a search technique that understands the meaning and intent behind queries rather than just matching keywords. It uses vector embeddings to find documents with similar semantic content.",
+    "expected_sources": ["doc_semantic_search"],
+    "expected_chunks": ["chunk_semantic_intro"],
+    "category": "technical_explanation",
+    "difficulty": "easy"
+  },
+  {
+    "id": "eval_013",
+    "query": "What is a vector database?",
+    "expected_answer": "A vector database is a specialized database that stores and indexes vector embeddings for efficient similarity search. Examples include Pinecone, Weaviate, Milvus, and pgvector.",
+    "expected_sources": ["doc_vector_db"],
+    "expected_chunks": ["chunk_vector_db_intro"],
+    "category": "technical_explanation",
+    "difficulty": "easy"
+  },
+  {
+    "id": "eval_014",
+    "query": "What is the attention mechanism?",
+    "expected_answer": "The attention mechanism allows models to weigh the importance of different parts of the input when processing each element. It computes attention scores between all pairs of positions in a sequence.",
+    "expected_sources": ["doc_attention_paper"],
+    "expected_chunks": ["chunk_attention_mechanism"],
+    "category": "technical_explanation",
+    "difficulty": "medium"
+  },
+  {
+    "id": "eval_015",
+    "query": "What is a token in NLP?",
+    "expected_answer": "A token is the basic unit of text that an NLP model processes. Tokens can be words, subwords (like Byte Pair Encoding), characters, or other text segments depending on the tokenization scheme.",
+    "expected_sources": ["doc_tokenization"],
+    "expected_chunks": ["chunk_tokens"],
+    "category": "factual",
+    "difficulty": "easy"
+  },
+  {
+    "id": "eval_016",
+    "query": "What is fine-tuning?",
+    "expected_answer": "Fine-tuning is the process of taking a pre-trained model and training it further on a specific dataset to adapt it to a particular task or domain.",
+    "expected_sources": ["doc_fine_tuning"],
+    "expected_chunks": ["chunk_fine_tuning_intro"],
+    "category": "technical_explanation",
+    "difficulty": "easy"
+  },
+  {
+    "id": "eval_017",
+    "query": "What is few-shot learning?",
+    "expected_answer": "Few-shot learning enables a model to learn from only a small number of examples. In the context of LLMs, it refers to providing a few examples in the prompt to guide the model's response.",
+    "expected_sources": ["doc_prompt_engineering"],
+    "expected_chunks": ["chunk_few_shot"],
+    "category": "technical_explanation",
+    "difficulty": "medium"
+  },
+  {
+    "id": "eval_018",
+    "query": "What is prompt engineering?",
+    "expected_answer": "Prompt engineering is the practice of designing and optimizing prompts to get better results from language models. It involves carefully crafting instructions, examples, and context.",
+    "expected_sources": ["doc_prompt_engineering"],
+    "expected_chunks": ["chunk_prompt_intro"],
+    "category": "technical_explanation",
+    "difficulty": "easy"
+  },
+  {
+    "id": "eval_019",
+    "query": "What is the difference between GPT and BERT?",
+    "expected_answer": "GPT (Generative Pre-trained Transformer) is an autoregressive model trained for text generation. BERT (Bidirectional Encoder Representations from Transformers) is bidirectional and designed for understanding tasks like classification.",
+    "expected_sources": ["doc_transformer_models"],
+    "expected_chunks": ["chunk_gpt_vs_bert"],
+    "category": "factual",
+    "difficulty": "medium"
+  },
+  {
+    "id": "eval_020",
+    "query": "What is a context window?",
+    "expected_answer": "A context window is the maximum number of tokens a model can consider when generating a response. It limits how much preceding text the model can use for context.",
+    "expected_sources": ["doc_llm_architecture"],
+    "expected_chunks": ["chunk_context_window"],
+    "category": "factual",
+    "difficulty": "easy"
+  },
+  {
+    "id": "eval_021",
+    "query": "Write a Python function to calculate cosine similarity",
+    "expected_answer": "A Python function to calculate cosine similarity takes two vectors as input, computes the dot product divided by the product of their magnitudes, and returns a value between -1 and 1.",
+    "expected_sources": ["doc_code_examples"],
+    "expected_chunks": ["chunk_cosine_similarity_code"],
+    "category": "code_related",
+    "difficulty": "medium"
+  },
+  {
+    "id": "eval_022",
+    "query": "How do I implement RAG with LangChain?",
+    "expected_answer": "To implement RAG with LangChain, you create a vector store, load documents, split them into chunks, create a retrieval chain that combines the retriever with a language model, and invoke it with queries.",
+    "expected_sources": ["doc_langchain"],
+    "expected_chunks": ["chunk_langchain_rag"],
+    "category": "code_related",
+    "difficulty": "hard"
+  },
+  {
+    "id": "eval_023",
+    "query": "What is the difference between SQL and vector databases?",
+    "expected_answer": "SQL databases store structured data in tables with rows and columns, using exact matches for queries. Vector databases store embeddings and use approximate nearest neighbor (ANN) algorithms for similarity search.",
+    "expected_sources": ["doc_vector_db"],
+    "expected_chunks": ["chunk_sql_vs_vector"],
+    "category": "factual",
+    "difficulty": "medium"
+  },
+  {
+    "id": "eval_024",
+    "query": "What is HNSW indexing?",
+    "expected_answer": "HNSW (Hierarchical Navigable Small World) is a graph-based indexing algorithm used in vector databases. It builds a multi-layer graph enabling fast approximate nearest neighbor searches with high recall.",
+    "expected_sources": ["doc_vector_db"],
+    "expected_chunks": ["chunk_hnsw"],
+    "category": "technical_explanation",
+    "difficulty": "hard"
+  },
+  {
+    "id": "eval_025",
+    "query": "What is tokenization?",
+    "expected_answer": "Tokenization is the process of converting text into tokens that can be processed by an NLP model. Common approaches include word tokenization, subword tokenization (BPE, WordPiece), and character tokenization.",
+    "expected_sources": ["doc_tokenization"],
+    "expected_chunks": ["chunk_tokenization"],
+    "category": "technical_explanation",
+    "difficulty": "easy"
+  },
+  {
+    "id": "eval_026",
+    "query": "What is a latent space?",
+    "expected_answer": "A latent space is a compressed representation of data where similar items are close together. In machine learning, it's the space where embeddings exist, enabling operations like vector arithmetic.",
+    "expected_sources": ["doc_embeddings"],
+    "expected_chunks": ["chunk_latent_space"],
+    "category": "technical_explanation",
+    "difficulty": "medium"
+  },
+  {
+    "id": "eval_027",
+    "query": "What is zero-shot classification?",
+    "expected_answer": "Zero-shot classification uses a pre-trained model to classify text into categories it has never seen during training, by leveraging the model's understanding of category names as text.",
+    "expected_sources": ["doc_zero_shot"],
+    "expected_chunks": ["chunk_zero_shot"],
+    "category": "technical_explanation",
+    "difficulty": "medium"
+  },
+  {
+    "id": "eval_028",
+    "query": "What is temperature in LLM generation?",
+    "expected_answer": "Temperature controls the randomness of LLM outputs. Higher temperature (e.g., 0.8) makes outputs more random and creative, while lower temperature (e.g., 0.2) makes outputs more focused and deterministic.",
+    "expected_sources": ["doc_llm_parameters"],
+    "expected_chunks": ["chunk_temperature"],
+    "category": "technical_explanation",
+    "difficulty": "easy"
+  },
+  {
+    "id": "eval_029",
+    "query": "What is max tokens in LLM generation?",
+    "expected_answer": "Max tokens limits the maximum length of the model's output response. It prevents overly long responses and controls costs since API pricing is based on token count.",
+    "expected_sources": ["doc_llm_parameters"],
+    "expected_chunks": ["chunk_max_tokens"],
+    "category": "factual",
+    "difficulty": "easy"
+  },
+  {
+    "id": "eval_030",
+    "query": "What is top-p sampling?",
+    "expected_answer": "Top-p (nucleus) sampling is a text generation technique where the model considers only the smallest set of tokens whose cumulative probability exceeds a threshold p, balancing diversity and quality.",
+    "expected_sources": ["doc_llm_parameters"],
+    "expected_chunks": ["chunk_top_p"],
+    "category": "technical_explanation",
+    "difficulty": "medium"
+  },
+  {
+    "id": "eval_031",
+    "query": "What is a knowledge graph?",
+    "expected_answer": "A knowledge graph represents information as a graph with entities as nodes and relationships as edges. It enables structured reasoning and can be combined with vector search for hybrid retrieval.",
+    "expected_sources": ["doc_knowledge_graph"],
+    "expected_chunks": ["chunk_kg_intro"],
+    "category": "technical_explanation",
+    "difficulty": "medium"
+  },
+  {
+    "id": "eval_032",
+    "query": "What is sentence transformers?",
+    "expected_answer": "Sentence Transformers is a Python library that provides state-of-the-art sentence embeddings. It offers pre-trained models like all-MiniLM-L6-v2 for generating semantically meaningful sentence embeddings.",
+    "expected_sources": ["doc_sentence_transformers"],
+    "expected_chunks": ["chunk_st_intro"],
+    "category": "factual",
+    "difficulty": "easy"
+  },
+  {
+    "id": "eval_033",
+    "query": "What is the difference between dense and sparse embeddings?",
+    "expected_answer": "Dense embeddings (like BERT) use all dimensions to represent meaning with non-zero values. Sparse embeddings (like BM25) have mostly zero values and are more interpretable but less semantically rich.",
+    "expected_sources": ["doc_embeddings"],
+    "expected_chunks": ["chunk_dense_vs_sparse"],
+    "category": "technical_explanation",
+    "difficulty": "hard"
+  },
+  {
+    "id": "eval_034",
+    "query": "What is reranking in retrieval?",
+    "expected_answer": "Reranking is a two-stage process where an initial fast retrieval (like vector search) returns candidates, then a more expensive but accurate model (cross-encoder) reorders them by relevance.",
+    "expected_sources": ["doc_reranking"],
+    "expected_chunks": ["chunk_reranking_intro"],
+    "category": "technical_explanation",
+    "difficulty": "medium"
+  },
+  {
+    "id": "eval_035",
+    "query": "What is metadata filtering in vector search?",
+    "expected_answer": "Metadata filtering allows you to filter search results based on document metadata (like source, date, author) before or after vector similarity search, improving result precision.",
+    "expected_sources": ["doc_vector_db"],
+    "expected_chunks": ["chunk_metadata_filtering"],
+    "category": "technical_explanation",
+    "difficulty": "medium"
+  },
+  {
+    "id": "eval_036",
+    "query": "What is a system prompt?",
+    "expected_answer": "A system prompt is an instruction given to an LLM that sets the behavior, persona, or task context for the conversation. It guides all subsequent user interactions.",
+    "expected_sources": ["doc_prompt_engineering"],
+    "expected_chunks": ["chunk_system_prompt"],
+    "category": "factual",
+    "difficulty": "easy"
+  },
+  {
+    "id": "eval_037",
+    "query": "What is chain-of-thought prompting?",
+    "expected_answer": "Chain-of-thought prompting encourages the LLM to show its reasoning step by step before giving a final answer, improving performance on complex reasoning tasks.",
+    "expected_sources": ["doc_prompt_engineering"],
+    "expected_chunks": ["chunk_cot"],
+    "category": "technical_explanation",
+    "difficulty": "medium"
+  },
+  {
+    "id": "eval_038",
+    "query": "What is quantization in ML?",
+    "expected_answer": "Quantization reduces model size and inference cost by representing weights with fewer bits (e.g., from 32-bit floats to 8-bit integers). It trades some accuracy for efficiency.",
+    "expected_sources": ["doc_model_optimization"],
+    "expected_chunks": ["chunk_quantization"],
+    "category": "technical_explanation",
+    "difficulty": "hard"
+  },
+  {
+    "id": "eval_039",
+    "query": "What is LORA fine-tuning?",
+    "expected_answer": "LoRA (Low-Rank Adaptation) is an efficient fine-tuning technique that adds small trainable matrices to transformer weights without modifying the original model, drastically reducing memory requirements.",
+    "expected_sources": ["doc_fine_tuning"],
+    "expected_chunks": ["chunk_lora"],
+    "category": "technical_explanation",
+    "difficulty": "hard"
+  },
+  {
+    "id": "eval_040",
+    "query": "What is embedding dimension?",
+    "expected_answer": "Embedding dimension is the size of the vector that represents each item. Higher dimensions can capture more nuanced relationships but require more memory and computation.",
+    "expected_sources": ["doc_embeddings"],
+    "expected_chunks": ["chunk_embedding_dim"],
+    "category": "factual",
+    "difficulty": "easy"
+  },
+  {
+    "id": "eval_041",
+    "query": "What is prefix caching?",
+    "expected_answer": "Prefix caching stores computed key-value pairs from previous tokens so they can be reused when generating new tokens, significantly speeding up inference for long contexts.",
+    "expected_sources": ["doc_llm_optimization"],
+    "expected_chunks": ["chunk_prefix_caching"],
+    "category": "technical_explanation",
+    "difficulty": "hard"
+  },
+  {
+    "id": "eval_042",
+    "query": "What is a document loader?",
+    "expected_answer": "A document loader is a component that reads documents from various sources (PDFs, websites, databases) and converts them into a standardized format for processing in RAG pipelines.",
+    "expected_sources": ["doc_data_loading"],
+    "expected_chunks": ["chunk_doc_loader"],
+    "category": "factual",
+    "difficulty": "easy"
+  },
+  {
+    "id": "eval_043",
+    "query": "What is text splitting overlap?",
+    "expected_answer": "Text splitting overlap includes some tokens from the end of one chunk at the beginning of the next, ensuring important context isn't lost at chunk boundaries.",
+    "expected_sources": ["doc_rag_implementation"],
+    "expected_chunks": ["chunk_overlap"],
+    "category": "technical_explanation",
+    "difficulty": "medium"
+  },
+  {
+    "id": "eval_044",
+    "query": "What is hybrid search?",
+    "expected_answer": "Hybrid search combines multiple retrieval methods, typically dense vector search (semantic) and sparse methods (keyword/BM25), to leverage the strengths of both approaches.",
+    "expected_sources": ["doc_hybrid_search"],
+    "expected_chunks": ["chunk_hybrid_intro"],
+    "category": "technical_explanation",
+    "difficulty": "medium"
+  },
+  {
+    "id": "eval_045",
+    "query": "What is recall in retrieval?",
+    "expected_answer": "Recall measures the proportion of relevant documents that were successfully retrieved out of all relevant documents in the collection. High recall means fewer relevant documents were missed.",
+    "expected_sources": ["doc_evaluation"],
+    "expected_chunks": ["chunk_recall"],
+    "category": "factual",
+    "difficulty": "easy"
+  },
+  {
+    "id": "eval_046",
+    "query": "What is precision in retrieval?",
+    "expected_answer": "Precision measures the proportion of retrieved documents that are actually relevant. High precision means most returned results are relevant to the query.",
+    "expected_sources": ["doc_evaluation"],
+    "expected_chunks": ["chunk_precision"],
+    "category": "factual",
+    "difficulty": "easy"
+  },
+  {
+    "id": "eval_047",
+    "query": "What is Mean Reciprocal Rank (MRR)?",
+    "expected_answer": "MRR evaluates ranking quality by taking the reciprocal of the rank at which the first relevant result appears, averaged across all queries. Higher MRR means relevant items appear earlier.",
+    "expected_sources": ["doc_evaluation"],
+    "expected_chunks": ["chunk_mrr"],
+    "category": "technical_explanation",
+    "difficulty": "medium"
+  },
+  {
+    "id": "eval_048",
+    "query": "What is NDCG?",
+    "expected_answer": "NDCG (Normalized Discounted Cumulative Gain) measures ranking quality by considering both relevance and position of results, giving higher scores when relevant items appear higher in rankings.",
+    "expected_sources": ["doc_evaluation"],
+    "expected_chunks": ["chunk_ndcg"],
+    "category": "technical_explanation",
+    "difficulty": "medium"
+  },
+  {
+    "id": "eval_049",
+    "query": "What is streaming in LLM responses?",
+    "expected_answer": "Streaming delivers LLM responses token-by-token as they're generated rather than waiting for the complete response, providing a better user experience for longer outputs.",
+    "expected_sources": ["doc_llm_parameters"],
+    "expected_chunks": ["chunk_streaming"],
+    "category": "technical_explanation",
+    "difficulty": "easy"
+  },
+  {
+    "id": "eval_050",
+    "query": "What is self-consistency in prompting?",
+    "expected_answer": "Self-consistency prompts an LLM to generate multiple reasoning paths and selects the most consistent answer, improving reliability on complex reasoning tasks.",
+    "expected_sources": ["doc_prompt_engineering"],
+    "expected_chunks": ["chunk_self_consistency"],
+    "category": "technical_explanation",
+    "difficulty": "hard"
   }
 ]
