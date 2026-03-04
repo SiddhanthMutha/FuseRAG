@@ -29,8 +29,7 @@ AsyncSessionLocal = async_sessionmaker(
 async def init_db() -> None:
     """Create all tables if they don't exist."""
     async with engine.begin() as conn:
-        # Enable pgvector extension first
-        await conn.execute(sqlalchemy.text("CREATE EXTENSION IF NOT EXISTS vector"))
+        # pgvector extension not needed - using JSON storage instead
         await conn.run_sync(Base.metadata.create_all)
 
 

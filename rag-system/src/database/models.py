@@ -1,12 +1,33 @@
 """
 SQLAlchemy ORM models for persistent storage.
-Uses pgvector extension for embedding storage in PostgreSQL.
+Embeddings stored as JSON arrays (pgvector not required).
 """
 from datetime import datetime
-from typing import Any
+from typing import Any, List
 
-from pgvector.sqlalchemy import Vector
-from sqlalchemy import JSON, Column, DateTime, Float, ForeignKey, Integer, String, Text
+from sqlalchemy import JSON, Column, DateTime, Float, ForeignKey, Integer, String, Text, TypeDecorator
+
+
+class Vector(TypeDecorator):
+    """Custom type to store embeddings as JSON arrays."""
+    impl = JSON
+    cache_ok = True
+    
+    def __init__(self, dimensions: int = 384):
+        self.dimensions = dimensions
+        super().__init__()
+    
+    def process_bind_param(self, value, dialect):
+        """Convert numpy array/list to JSON for storage."""
+        if value is None:
+            return None
+        if hasattr(value, 'tolist'):
+            return value.tolist()
+        return list(value)
+    
+    def process_result_value(self, value, dialect):
+        """Convert JSON back to list."""
+        return value
 from sqlalchemy.orm import DeclarativeBase, relationship
 
 
