@@ -51,7 +51,6 @@ The system uses a hybrid search approach - combining semantic search with keywor
 - **Streaming Responses**: Real-time token streaming via WebSocket
 - **Document Chunking**: Semantic and recursive chunking strategies
 - **Query Rewriting**: Automatic query expansion for better retrieval
-- **Full Evaluation Suite**: Golden dataset testing, performance benchmarks
 
 ## Quick Start
 
@@ -70,14 +69,7 @@ You'll need:
 - **Pinecone API Key** - for vector storage
 - **(Optional) Anthropic Key** - for Claude as an alternative LLM
 
-### 3. Run with Docker
-
-```bash
-cd rag-system/infra/docker
-docker-compose up -d
-```
-
-### 4. Start the API
+### 3. Start the API
 
 ```bash
 cd rag-system
@@ -126,10 +118,8 @@ rag-system/
 │   ├── retrieval/        # Vector search, BM25, reranker
 │   ├── generation/       # LLM clients & prompt building
 │   └── database/         # SQLAlchemy models & repository
-├── tests/                # Unit, integration & eval tests
-├── scripts/              # Helper scripts
-├── infra/                # Docker & Kubernetes configs
-└── docs/                 # Architecture & API docs
+├── tests/                # Unit & integration tests
+└── scripts/              # Helper scripts
 ```
 
 ## Running Tests
@@ -142,9 +132,6 @@ pytest tests/unit/ -v
 
 # Integration tests
 pytest tests/integration/ -v
-
-# Evaluation with golden dataset
-python scripts/run_evaluation.py
 ```
 
 ## What I Built
@@ -156,8 +143,7 @@ This project implements a complete RAG pipeline from scratch:
 3. **Cross-Encoder Reranking** - Reorders retrieved chunks for maximum relevance
 4. **Multi-Provider LLM Client** - Supports OpenAI and Anthropic with streaming
 5. **Production API** - FastAPI with middleware for logging, error handling, and rate limiting
-6. **Evaluation Framework** - Performance benchmarks and quality metrics
-7. **Docker Deployment** - Complete containerization with docker-compose
+6. **Docker Deployment** - Complete containerization with docker-compose
 
 ## Why These Choices?
 
