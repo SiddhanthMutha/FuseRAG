@@ -1,107 +1,122 @@
-# RAG System - Intelligent Document Assistant
+# FuseRAG
 
-![RAG Frontend](screenshot.png)
+![FuseRAG Frontend](screenshot.png)
 
-A production-ready Retrieval-Augmented Generation (RAG) system that lets you chat with your documents. Built with FastAPI, OpenAI, and Pinecone.
+FuseRAG is a production-minded RAG system for chatting with documents, code, markdown, and web content without treating retrieval like an afterthought.
 
-## What This Does
+It is called **FuseRAG** because the core of the system is **hybrid retrieval**: it fuses semantic vector search with keyword search so the model can find both conceptual matches and exact language.  
+The name also reflects the broader design of the project: multiple retrieval signals, reranking, and evaluation are fused into one end-to-end pipeline.
 
-Ever wanted to ask questions about a pile of PDFs or code files without reading through them all? This system does exactly that:
+## Why I Built This
 
-- **Upload documents** (PDFs, code files, web pages, markdown)
-- **Ask questions** in natural language
-- **Get accurate answers** based on the content of your documents
+Most RAG demos look convincing in screenshots, but fall apart on real queries.
 
-The system uses a hybrid search approach - combining semantic search with keyword matching - to find the most relevant information before generating answers with GPT-4 or Claude.
+They usually rely on embeddings alone, retrieve loosely relevant chunks, miss exact terms, and give you no real way to measure whether the final answer was actually grounded in the source material.
 
-## The Stack
+FuseRAG was built to fix that. The goal was not just to make document chat work, but to make retrieval more reliable, answers more grounded, and quality more measurable.
+
+## What Makes FuseRAG Better Than A Basic RAG Demo
+
+FuseRAG is stronger than a typical embeddings-only RAG pipeline in a few important ways:
+
+- **Hybrid retrieval** combines dense vector search with BM25 keyword matching instead of trusting embeddings alone.
+- **Reciprocal Rank Fusion** merges those retrieval signals so exact-match relevance and semantic similarity both matter.
+- **Cross-encoder reranking** improves the final ordering of chunks before generation.
+- **Evaluation is built in** with retrieval and answer-quality metrics instead of relying on intuition.
+- **Multiple ingestion paths** support PDFs, code, markdown, and web pages in one system.
+- **A real web app** makes the full pipeline usable: ingest, query, browse documents, and run evaluations.
+
+In short: this is not a "chat with PDF" demo. It is a retrieval system with a chat interface on top.
+
+## How It Works
+
+```text
+Documents -> Parsing -> Chunking -> Embeddings + Keyword Index
+                                      |
+                                      v
+                         Hybrid Retrieval (Dense + Sparse)
+                                      |
+                                      v
+                            Reciprocal Rank Fusion
+                                      |
+                                      v
+                           Cross-Encoder Reranking
+                                      |
+                                      v
+                         Prompt Construction + LLM Answer
+                                      |
+                                      v
+                         Evaluation of Retrieval + Output
+```
+
+## What We Built
+
+FuseRAG includes:
+
+- A FastAPI backend with API routes, middleware, and server-rendered views
+- A document ingestion pipeline for PDFs, markdown, code files, and web sources
+- Multiple chunking strategies, including semantic and syntax-aware chunking
+- Dense retrieval with Pinecone-compatible vector search
+- Sparse retrieval with BM25 keyword search
+- Reciprocal Rank Fusion for hybrid retrieval
+- Cross-encoder reranking for better final relevance
+- Streaming answer generation with OpenAI and Anthropic support
+- An evaluation harness for retrieval quality, answer correctness, and faithfulness
+- A lightweight web UI built with Jinja2 and HTMX
+
+## Why The Retrieval Is Stronger
+
+The biggest weakness in many RAG systems is that they assume the first retrieval pass is "good enough." In practice, it often is not.
+
+FuseRAG improves that in three layers:
+
+1. **Vector search** captures semantic meaning.
+2. **BM25** catches exact keywords, identifiers, and terminology that embeddings often underweight.
+3. **Reranking** scores query-document pairs directly, which helps surface the most useful chunks before generation.
+
+That combination makes the system more dependable than a naive top-k similarity search, especially for technical content and mixed-format corpora.
+
+## Evaluation First, Not Vibes First
+
+One of the most important parts of this project is the evaluation layer.
+
+FuseRAG does not stop at "the answer sounds good." It includes a framework for measuring:
+
+- **Precision@k**
+- **Recall@k**
+- **MRR**
+- **nDCG**
+- **Faithfulness**
+- **Correctness**
+- **Latency**
+- **Token usage and cost**
+
+This matters because the real difference between a demo and a usable RAG system is whether you can prove the system is retrieving the right context and staying grounded in it.
+
+## Product Experience
+
+The web frontend lets you:
+
+- upload documents or ingest them from source URLs
+- ask questions and receive streamed answers
+- inspect ingested documents
+- run evaluations and review historical runs
+
+It is intentionally simple, but it covers the full workflow end to end.
+
+## Tech Stack
 
 | Component | Technology |
 |-----------|------------|
-| **API Framework** | FastAPI with async support |
-| **Vector Database** | Pinecone for semantic search |
-| **LLM Providers** | OpenAI (GPT-4) & Anthropic (Claude) |
-| **Embeddings** | OpenAI Ada-002 or MiniLM (local) |
-| **Metadata Storage** | PostgreSQL with pgvector |
-| **Reranking** | Cross-encoder models |
-| **Keyword Search** | BM25 algorithm |
-
-## Architecture Highlights
-
-```
-┌─────────────┐     ┌─────────────┐     ┌─────────────────┐
-│   Documents │────▶│  Chunking   │────▶│  Vector Store   │
-│   (PDF/Code)│     │  & Embedding│     │   (Pinecone)    │
-└─────────────┘     └─────────────┘     └─────────────────┘
-                                                │
-                                                ▼
-┌─────────────┐     ┌─────────────┐     ┌─────────────────┐
-│   Answer    │◀────│  LLM + RAG  │◀────│  Hybrid Search  │
-│   (Stream)  │     │  (GPT-4)    │     │  (Dense+Sparse) │
-└─────────────┘     └─────────────┘     └─────────────────┘
-                                                ▲
-                                         ┌─────────────┐
-                                         │   Query     │
-                                         └─────────────┘
-```
-
-## Key Features
-
-- **Multiple Document Types**: PDFs, Python code, Markdown, web pages
-- **Hybrid Retrieval**: Combines vector similarity with BM25 keyword search
-- **Smart Reranking**: Cross-encoder reorders results for better relevance
-- **Streaming Responses**: Real-time token streaming via WebSocket
-- **Document Chunking**: Semantic and recursive chunking strategies
-- **Query Rewriting**: Automatic query expansion for better retrieval
-
-## Live Frontend
-
-The system now includes a fully-functional web frontend built with server-rendered Jinja2 templates and HTMX for interactivity. The screenshot above shows the query interface where you can:
-
-- Ask questions and get streamed answers in real-time
-- Upload PDFs or ingest documents from URLs
-- Browse your ingested documents
-- Run evaluation suites and see the results
-
-No React or build tools required — just pure FastAPI templates with a bit of JavaScript magic.
-
-## Evaluation Suite
-
-We built a full evaluation framework that measures how well the RAG system actually works. Running the test suite gives you metrics across the whole pipeline:
-
-| Metric | What It Measures |
-|--------|-----------------|
-| **Precision@k** | How many of the top-k results are actually relevant |
-| **Recall@k** | How many of the expected documents did we find |
-| **MRR** | Mean Reciprocal Rank - rewards finding relevant docs earlier |
-| **nDCG** | Normalized Discounted Cumulative Gain - graded ranking quality |
-| **Faithfulness** | Whether answers stick to what the retrieved chunks actually say |
-| **Correctness** | If the answer matches the expected answer |
-
-The evaluation runs against synthetic Q&A pairs generated from your ingested documents, so you're always testing on data that's relevant to your corpus. Results are stored in the database and can be viewed in the evaluation dashboard.
-
-The test suite validates all evaluation components work correctly - **46 evaluation-related tests pass** (precision, recall, MRR, nDCG, harness, judge, repository). Your actual evaluation results will vary based on your document corpus and chosen model. To get real numbers: (1) ingest some documents, then (2) hit `/web/eval` in the browser and click "Run Evaluation".
-
-What we learned from building this: the hybrid search approach really pays off. Without BM25, we'd miss exact keyword matches that vector search struggles with. The cross-encoder reranker helps us squeeze out that extra 10-15% relevance by reordering the top results. And faithfulness checking catches those sneaky cases where the LLM starts hallucinating details not in the source chunks.
+| API Framework | FastAPI |
+| Vector Retrieval | Pinecone-compatible vector store |
+| Keyword Retrieval | BM25 |
+| Reranking | Sentence Transformers cross-encoder |
+| LLM Providers | OpenAI and Anthropic |
+| Metadata Storage | PostgreSQL / pgvector |
+| Frontend | Jinja2 + HTMX |
 
 ## Quick Start
-
-### 1. Clone and Setup
-
-```bash
-cd rag-system
-cp .env.example .env
-# Edit .env with your API keys
-```
-
-### 2. Required API Keys
-
-You'll need:
-- **OpenAI API Key** - for embeddings and LLM generation
-- **Pinecone API Key** - for vector storage
-- **(Optional) Anthropic Key** - for Claude as an alternative LLM
-
-### 3. Start the API
 
 ```bash
 cd rag-system
@@ -109,11 +124,11 @@ pip install -r requirements.txt
 uvicorn src.api.main:app --reload
 ```
 
-Visit `http://localhost:8000/docs` for the interactive API documentation.
+Visit `http://localhost:8000/docs` for the API and `http://localhost:8000/web/query` for the web app.
 
-## Using the API
+## Example API Usage
 
-### Upload a Document
+Upload a document:
 
 ```bash
 curl -X POST "http://localhost:8000/api/v1/ingest/upload" \
@@ -121,7 +136,7 @@ curl -X POST "http://localhost:8000/api/v1/ingest/upload" \
   -F "chunking_strategy=recursive"
 ```
 
-### Ask a Question
+Ask a question:
 
 ```bash
 curl -X POST "http://localhost:8000/api/v1/query" \
@@ -133,68 +148,30 @@ curl -X POST "http://localhost:8000/api/v1/query" \
   }'
 ```
 
-### Stream a Response
-
-```bash
-# Via WebSocket
-websocat ws://localhost:8000/api/v1/query/stream
-```
-
 ## Project Structure
 
-```
+```text
 rag-system/
-├── src/
-│   ├── api/              # FastAPI routes & middleware
-│   ├── ingestion/        # Document parsers & chunkers
-│   ├── retrieval/        # Vector search, BM25, reranker
-│   ├── generation/       # LLM clients & prompt building
-│   └── database/         # SQLAlchemy models & repository
-├── tests/                # Unit & integration tests
-└── scripts/              # Helper scripts
+|-- src/
+|   |-- api/
+|   |-- ingestion/
+|   |-- retrieval/
+|   |-- generation/
+|   `-- evaluation/
+|-- tests/
+`-- scripts/
 ```
 
-## Running Tests
+## Roadmap
 
-```bash
-cd rag-system
+Natural next steps for FuseRAG:
 
-# Unit tests
-pytest tests/unit/ -v
-
-# Integration tests
-pytest tests/integration/ -v
-```
-
-## What I Built
-
-This project implements a complete RAG pipeline from scratch:
-
-1. **Document Ingestion Pipeline** - Parses PDFs, code files, and web pages with intelligent chunking
-2. **Hybrid Search System** - Combines dense vector search (Pinecone) with sparse keyword search (BM25)
-3. **Cross-Encoder Reranking** - Reorders retrieved chunks for maximum relevance
-4. **Multi-Provider LLM Client** - Supports OpenAI and Anthropic with streaming
-5. **Production API** - FastAPI with middleware for logging, error handling, and rate limiting
-6. **Live Web Frontend** - Server-rendered Jinja2 templates with HTMX for a responsive UI
-7. **Evaluation Framework** - Full metrics suite (precision, recall, MRR, nDCG, faithfulness, correctness)
-
-## Why These Choices?
-
-- **FastAPI**: Async support + automatic API docs
-- **Pinecone**: Managed vector DB with excellent performance
-- **Hybrid Search**: Pure vector search misses exact keyword matches; hybrid catches both
-- **BM25**: Still unbeatable for keyword relevance
-- **Cross-Encoder**: More accurate than dot-product similarity for reranking
-
-## Future Ideas (Roadmap)
-
-Things I'd like to add next:
-
-- **Conversation memory** - Remember previous questions in a chat session (like ChatGPT) so you can ask follow-ups
-- **Multi-modal support (images)** - Extract text from scanned documents and images using OCR
-- **Fine-tuned embedding models** - Train custom embeddings on domain-specific data (medical, legal) for better retrieval
-- **GraphRAG integration** - Build a knowledge graph from documents to find connections that semantic search misses
+- conversation memory and follow-up context
+- OCR and scanned-document support
+- stronger domain-specific embedding strategies
+- richer retrieval experiments and baseline comparisons
+- GraphRAG-style relationship exploration
 
 ---
 
-Built with Python, lots of coffee, and a healthy obsession with retrieval accuracy.
+FuseRAG is built around a simple idea: better answers start with better retrieval.
